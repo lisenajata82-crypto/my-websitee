@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>send ltc. you know why.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a0a;
+      --card:    #111111;
+      --border:  #1f1f1f;
+      --ltc:     #b8a9f5;
+      --ltc-dim: #2a1f5a;
+      --green:   #4ade80;
+      --red:     #f87171;
+      --text:    #d4d4d4;
+      --muted:   #525252;
+      --white:   #fafafa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: var(--ltc);
+      color: #0a0a0a;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 18s linear infinite;
+    }
+
+    .ticker-inner span { margin: 0 40px; }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 12px;
+    }
+
+    .hero-title .ltc { color: var(--ltc); }
+
+    .hero-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .hero-sub .cross {
+      text-decoration: line-through;
+      color: var(--red);
+      opacity: 0.7;
+    }
+
+    .hero-sub .real { color: var(--green); }
+
+    /* ── WALLET CARD ── */
+    .wallet-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      max-width: 560px;
+      width: 100%;
+      margin: 0 auto 20px;
+    }
+
+    .wallet-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .wallet-address {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+      color: var(--ltc);
+      word-break: break-all;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      background: #0d0a1a;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--ltc-dim);
+      cursor: pointer;
+      transition: background 0.2s;
+      user-select: all;
+    }
+
+    .wallet-address:hover { background: #12103a; }
+
+    .copy-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--ltc);
+      color: #0a0a0a;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .copy-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .copy-btn:active { transform: translateY(0); }
+
+    .copy-toast {
+      font-size: 0.78rem;
+      color: var(--green);
+      text-align: center;
+      margin-top: 10px;
+      height: 20px;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+
+    /* ── REASONS ── */
+    #reasons {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .reasons-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .reason {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .reason:hover {
+      border-color: var(--ltc-dim);
+      transform: translateX(4px);
+    }
+
+    .reason-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--ltc);
+      opacity: 0.4;
+      min-width: 48px;
+      line-height: 1;
+    }
+
+    .reason-content h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .reason-content p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .reason-content p .em { color: var(--text); }
+
+    /* ── IMPACT ── */
+    #impact {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 24px;
+    }
+
+    .impact-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .impact-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 800;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .impact-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .impact-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--ltc);
+      margin-bottom: 8px;
+    }
+
+    .impact-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .impact-emoji { font-size: 1.5rem; margin-bottom: 10px; }
+
+    /* ── FINAL CTA ── */
+    #cta {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .cta-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .cta-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    footer span { color: var(--ltc); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>SEND LTC</span>
+    <span>•</span>
+    <span>HELP A BRO OUT</span>
+    <span>•</span>
+    <span>LITECOIN ONLY</span>
+    <span>•</span>
+    <span>NO QUESTIONS ASKED</span>
+    <span>•</span>
+    <span>SEND LTC</span>
+    <span>•</span>
+    <span>HELP A BRO OUT</span>
+    <span>•</span>
+    <span>LITECOIN ONLY</span>
+    <span>•</span>
+    <span>NO QUESTIONS ASKED</span>
+    <span>•</span>
+    <span>SEND LTC</span>
+    <span>•</span>
+    <span>HELP A BRO OUT</span>
+    <span>•</span>
+    <span>LITECOIN ONLY</span>
+    <span>•</span>
+    <span>NO QUESTIONS ASKED</span>
+    <span>•</span>
+  </div>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <p class="hero-eyebrow">a humble request from a humble guy</p>
+  <h1 class="hero-title">send me<br><span class="ltc">LTC.</span></h1>
+  <p class="hero-sub">
+    not for <span class="cross">bad reasons</span><br>
+    for <span class="real">very good reasons actually</span>
+  </p>
+
+  <div class="wallet-card">
+    <p class="wallet-label">⚡ litecoin address</p>
+    <div class="wallet-address" id="address" title="click to copy">
+      LhRhx7Y2NC95F5Nchy7cyj2nm9QVr3VC5W
+    </div>
+    <button class="copy-btn" onclick="copyAddress()">📋 copy address</button>
+    <p class="copy-toast" id="toast">✓ copied! ur a real one</p>
+  </div>
+</section>
+
+<!-- Reasons -->
+<section id="reasons">
+  <h2 class="reasons-title">why you SHOULD send it 🧵</h2>
+
+  <div class="reveal reason">
+    <div class="reason-num">1</div>
+    <div class="reason-content">
+      <h3>i'll literally be so happy</h3>
+      <p>studies show that <span class="em">making me happy</span> is one of the greatest things a person can do. don't you want to do great things?</p>
+    </div>
+  </div>
+
+  <div class="reveal reason">
+    <div class="reason-num">2</div>
+    <div class="reason-content">
+      <h3>LTC fees are basically nothing</h3>
+      <p>sending $5 of litecoin costs like <span class="em">2 cents in fees.</span> there is genuinely no excuse. you're just choosing not to.</p>
+    </div>
+  </div>
+
+  <div class="reveal reason">
+    <div class="reason-num">3</div>
+    <div class="reason-content">
+      <h3>i will remember this forever</h3>
+      <p>every person who sends LTC gets <span class="em">permanent legendary status</span> in my memory. i will speak of you only in hushed, reverent tones.</p>
+    </div>
+  </div>
+
+  <div class="reveal reason">
+    <div class="reason-num">4</div>
+    <div class="reason-content">
+      <h3>your wallet needs to go on a diet anyway</h3>
+      <p>too much crypto sitting around is actually bad for your portfolio health. <span class="em">doctors recommend sending some to me.</span></p>
+    </div>
+  </div>
+
+  <div class="reveal reason">
+    <div class="reason-num">5</div>
+    <div class="reason-content">
+      <h3>karma is real and it's watching</h3>
+      <p>the universe keeps score. every unreturned text, every ignored meme, every time you said "lol" without actually laughing — <span class="em">this fixes all of it.</span></p>
+    </div>
+  </div>
+
+  <div class="reveal reason">
+    <div class="reason-num">6</div>
+    <div class="reason-content">
+      <h3>honestly just do it</h3>
+      <p>no bit. no angle. <span class="em">just send it.</span> you already read this far. you're basically legally obligated at this point.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Impact -->
+<div id="impact">
+  <div class="impact-inner">
+    <h2 class="impact-title">what your LTC actually does 📊</h2>
+    <div class="impact-grid">
+      <div class="reveal impact-card">
+        <div class="impact-emoji">😊</div>
+        <div class="impact-amount">0.01 LTC</div>
+        <div class="impact-desc">makes me smile for approximately 4 hours</div>
+      </div>
+      <div class="reveal impact-card">
+        <div class="impact-emoji">🧃</div>
+        <div class="impact-amount">0.05 LTC</div>
+        <div class="impact-desc">juice money. crucial. essential. thank you.</div>
+      </div>
+      <div class="reveal impact-card">
+        <div class="impact-emoji">🤩</div>
+        <div class="impact-amount">0.1 LTC</div>
+        <div class="impact-desc">i will personally tell 3 people you're a great person</div>
+      </div>
+      <div class="reveal impact-card">
+        <div class="impact-emoji">👑</div>
+        <div class="impact-amount">0.5 LTC+</div>
+        <div class="impact-desc">you become a certified legend. no further questions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final CTA -->
+<section id="cta">
+  <h2 class="cta-title reveal">still not convinced?</h2>
+  <p class="cta-sub reveal">bro just send it. even 0.001. i will not be mad. i will only be grateful. you will feel good. i will feel good. everybody wins.</p>
+  <div class="wallet-card reveal">
+    <p class="wallet-label">⚡ one more time for the people in the back</p>
+    <div class="wallet-address" id="address2" title="click to copy">
+      LhRhx7Y2NC95F5Nchy7cyj2nm9QVr3VC5W
+    </div>
+    <button class="copy-btn" onclick="copyAddress2()">📋 copy & send it</button>
+    <p class="copy-toast" id="toast2">✓ copied! legend behavior fr</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>no pressure tho 👀 &nbsp;·&nbsp; made by <span>fran</span></p>
+</footer>
+
+<script>
+  /* Copy buttons */
+  function copyAddress() {
+    navigator.clipboard.writeText('LhRhx7Y2NC95F5Nchy7cyj2nm9QVr3VC5W');
+    const t = document.getElementById('toast');
+    t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 2500);
+  }
+
+  function copyAddress2() {
+    navigator.clipboard.writeText('LhRhx7Y2NC95F5Nchy7cyj2nm9QVr3VC5W');
+    const t = document.getElementById('toast2');
+    t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 2500);
+  }
+
+  /* Scroll reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
